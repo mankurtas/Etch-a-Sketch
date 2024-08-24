@@ -1,5 +1,5 @@
 const mainContainer = document.querySelector('.container')
-const boxes = document.querySelectorAll('.box')
+// const boxes = document.querySelectorAll('.box')
 const gridSetter = document.getElementById('gridSetter')
 
 let gridSide = 16
@@ -40,8 +40,22 @@ function addEventListenerToDiv (div){
 
 gridSetter.addEventListener('click', function() {
     gridSide = prompt('Set the grid side from 0 to 100')
+
+    while (gridSide < 0 || gridSide > 100) {
+        gridSide = prompt('Set the grid side from 0 to 100')
+    }
+    
+    removeDivs()
     createDivs(gridSide)
 })
 
+//clean previosly created divs
+function removeDivs(){
+    const boxes = document.querySelectorAll('.box')
+    boxes.forEach(box => box.remove())
+}
+
 createDivs(16);
+
+
 
