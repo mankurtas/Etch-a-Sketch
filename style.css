@@ -26,6 +26,6 @@ body {
 .box{
     box-sizing: border-box; 
     border: 1px solid gray;
-
+    /* opacity: 0.1; */
 }
 

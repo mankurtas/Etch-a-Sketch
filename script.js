@@ -1,5 +1,4 @@
 const mainContainer = document.querySelector('.container')
-// const boxes = document.querySelectorAll('.box')
 const gridSetter = document.getElementById('gridSetter')
 
 let gridSide = 16
@@ -11,6 +10,15 @@ function createDivs(num){
     for (let index = 0; index < (num * num); index++) {
         appendDiv(num)
     }
+    const boxes = document.querySelectorAll('.box')
+
+    boxes.forEach(box => {
+        box.addEventListener('mouseover', handleMouseOverBgColor)
+    })
+
+    boxes.forEach(box => {
+        box.addEventListener('mouseover', handleMouseOverOpacity)
+    })
 }
 
 function calculateDivWidthAndHeight(number){
@@ -25,17 +33,49 @@ function appendDiv(num){
     newDiv.style.width = calculateDivWidthAndHeight(num);
     newDiv.style.height = calculateDivWidthAndHeight(num);
 
-    addEventListenerToDiv(newDiv)
     mainContainer.appendChild(newDiv);
     
 
 }
 
+function setBackGroundColorOfDiv (div){
+    div.style.backgroundColor = getRandomColorRandomRgb()
 
-function addEventListenerToDiv (div){
-    div.addEventListener('mouseover', () => {
-        div.style.backgroundColor =  'lightcoral';
-    })
+    div.removeEventListener('mouseover',setBackGroundColorOfDiv(div))
+}
+
+function handleMouseOverBgColor (event){
+    const target = event.currentTarget;
+    target.style.backgroundColor = getRandomColorRandomRgb();
+    target.style.opacity = 0;
+    target.removeEventListener('mouseover', handleMouseOverBgColor)
+}
+
+function handleMouseOverOpacity(event) {
+    const target = event.currentTarget;
+
+    let currentOpacity = parseFloat(getComputedStyle(target).opacity)
+
+    if (currentOpacity < 1 ) {
+        currentOpacity += 0.1; // Increase opacity by 0.1
+
+        currentOpacity = currentOpacity.toFixed(1)
+
+        target.style.opacity = currentOpacity
+
+    }
+}
+
+
+
+function getRandomColorRandomRgb(){
+    let randomRgb = '0';
+    let randomNumber1 = Math.floor(Math.random() * 257);
+    let randomNumber2 = Math.floor(Math.random() * 257);
+    let randomNumber3 = Math.floor(Math.random() * 257);
+
+    randomRgb = `rgb(${randomNumber1},${randomNumber2},${randomNumber3})`
+    return randomRgb
 }
 
 gridSetter.addEventListener('click', function() {
